@@ -13,6 +13,7 @@ module FilesystemExt
       mounts
     end
 
+    # Returns only hd devices (/dev/sd*) that are mounted.
     def dev_mounts
       self.mounts.inject([]){|ary,mount| !mount.name.match("/dev/").nil? ? ary << mount : ary}
     end
