@@ -20,11 +20,27 @@ require File.dirname(__FILE__) + '/../lib/sheep/filesystem_ext.rb'
 
 loop do
   begin 
-    res = Net::HTTP.post_form(URI.parse(CONFIG.server_url+"/stats.xml"), 
-                              {:api_key => CONFIG.api_key, 
-                               :cpu_stat => CPU.load_avg.join(","),
-                               :mem_stat => [MEM.memtotal, MEM.memfree].join(","),
-                               :fs_stat => [].join(",")})
+    # List of data that's going to be send to shepherd_monitoring
+    api_key = CONFIG.api_key
+    cpu_stat = CPU.load_avg.join(',')
+    mem_stat = [MEM.memtotal, MEM.memfree].join(',')
+
+    fs_stat = Filesystem.dev_mounts.inject({}) do |ary, mount|
+                fs_stat = Filesystem.stat(mount)
+                ary[fs_stat.path.to_s] = [fs_stat.block_size, fs_stat.blocks, fs_stat.blocks_free]
+                ary
+              end
+
+    # Marshal.load(serialized_hash)
+    fs_stat_serialized = Marshal.dump(fs_stat)
+
+    data = {:api_key => api_key,
+            :cpu_stat => cpu_stat,
+            :mem_stat => mem_stat,
+            :fs_stat => fs_stat_serialized}
+
+    # Sending data
+    res = Net::HTTP.post_form(URI.parse(CONFIG.server_url+"/stats.xml"), data)
     sleep (45)
   rescue
   end
