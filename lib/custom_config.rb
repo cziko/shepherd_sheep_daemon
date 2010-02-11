@@ -2,7 +2,7 @@ require 'yaml'
 
 class CustomConfig
 
-  VERSION = '0.5.5'
+  VERSION = '0.4.5'
   # Config hash
   # * api_key
   # * server_url

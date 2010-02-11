@@ -27,4 +27,3 @@ loop do
   rescue
   end
 end
-
