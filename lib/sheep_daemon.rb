@@ -7,9 +7,11 @@
 require 'rubygems'
 gem 'sys-cpu'
 gem 'sys-host'
+gem 'sys-filesystem'
 gem 'cziko-sys-mem'
 require "sys/cpu"
 require "sys/host"
+require "sys/filesystem"
 require "sys/mem"
 include Sys
 require 'net/http'
