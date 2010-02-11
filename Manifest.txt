@@ -1,0 +1,7 @@
+History.txt  
+Manifest.txt  
+Rakefile  
+README.txt  
+bin/sheep  
+lib/custom_config.rb
+lib/sheep_daemon.rb
