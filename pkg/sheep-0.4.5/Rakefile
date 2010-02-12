@@ -21,6 +21,11 @@ Bones {
   summary  'Sheep monitoring daemon'
 }
 
+depend_on 'sys-cpu'
+depend_on 'sys-host'
+depend_on 'sys-filesystem'
+depend_on 'cziko-sys-mem'
+depend_on 'daemons'
 
 # begin
 #   require 'bones'
