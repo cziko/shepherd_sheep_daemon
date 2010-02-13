@@ -25,9 +25,10 @@ loop do
     cpu_stat = CPU.load_avg.join(',')
     mem_stat = [MEM.memtotal, MEM.memfree].join(',')
 
+    # Trying to send as little data as possible
     fs_stat = Filesystem.dev_mounts.inject({}) do |ary, mount|
                 fs_stat = Filesystem.stat(mount)
-                ary[fs_stat.path.to_s] = [fs_stat.block_size, fs_stat.blocks, fs_stat.blocks_free]
+                ary[fs_stat.path.to_s] = [fs_stat.block_size, fs_stat.blocks, fs_stat.blocks_available]
                 ary
               end
 
